@@ -1,27 +1,30 @@
-<?php 
+<?php
+include_once("./database.php");
 
-function GetProducts($query)
+function ShowSearchData()
 {
-   $res = DataProvider::ExecuteQuery($query);
-   while ($row = mysqli_fetch_array($res)) {
-      $maSanPham = $row['MaSanPham'];
-      $tenHienThi = $row['TenHienThi'];
-      $gia = $row['Gia'];
-      $urlHinh = $row['HinhURL'];
-      echo ('
-                <div class="col-xs-12 col-sm-6 col-md-3">
-                <a href="details.php?id=' . $maSanPham . '">
-                <div class="thumbnail effect">
-                    <img class="img-proc" src="' . $urlHinh . '" alt="" width="100%">
-                    <div class="productname">' . $tenHienThi . '</div>
-                    <h4 class="price">' . $gia . 'đ</h4>
-                </div>
-                </a>
-            </div>');
-   }
+    $id = isset($_GET['id']) ? $_GET['id'] : '';
+    $br = isset($_GET['br']) ? $_GET['br'] : '';
+    $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE MaLoai = $id AND MaHangSanXuat = $br";
+    $res = DataProvider::ExecuteQuery($query);
+    while ($row = mysqli_fetch_array($res)) {
+        $maSanPham = $row['MaSanPham'];
+        $tenHienThi = $row['TenHienThi'];
+        $gia = $row['Gia'];
+        $urlHinh = $row['HinhURL'];
+        echo ('
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                    <a href="details.php?id=' . $maSanPham . '">
+                    <div class="thumbnail effect">
+                        <img class="img-proc" src="' . $urlHinh . '" width="100%">
+                        <div class="productname">' . $tenHienThi . '</div>
+                        <h4 class="price">' . $gia . 'đ</h4>
+                    </div>
+                    </a>
+                    </div>');
+    }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,36 +86,44 @@ function GetProducts($query)
       </div>
    </div>
 
-   <!--sản phẩm bán chạy nhất -->
    <div class="container">
-      <h3 class="title text-left SPBanChay">SẢN PHẨM BÁN CHẠY NHẤT</h3>
-      <div class="row">
-        <?php 
-         $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY SoLuongBan DESC LIMIT 10";
-         GetProducts($query);
-         ?>
-      </div>
+    <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-8">
+                <div class="manunew mobile-img">
+                    <?php 
+                    if (isset($_GET['id'])) {
+                        $id = $_GET['id'];
+                        $query = "SELECT DISTINCT (hsx.MaHangSanXuat), hsx.LogoURL FROM sanpham sp join hangsanxuat hsx on sp.MaHangSanXuat = hsx.MaHangSanXuat where sp.MaLoai = $id";
+                        $res = DataProvider::ExecuteQuery($query);
+                        while ($row = mysqli_fetch_array($res)) {
+                            $MaHangSanXuat = $row['MaHangSanXuat'];
+                            $Logo = $row['LogoURL'];
+                            echo ('<a href="brand.php?id=' . $id . '&br=' . $MaHangSanXuat . '"><img src="' . $Logo . '"/></a>');
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- hết logo cửa hãng sx -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="header-top mobile"></div>
+            </div>
+        </div>
    </div>
-   <!--hết sản phẩm bán chạy nhất -->
-   <div class="container">
-      <div class="row">
-         <div class="col-md-12">
-            <div class="header-top"></div>
-         </div>
-      </div>
-   </div>
-   <!--sản phẩm bán mới nhất -->
-   <div class="container">
-      <h3 class="title text-left SPBanChay">SẢN PHẨM MỚI NHẤT</h3>
-      <div class="row">
-      <?php 
-      $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY NgayNhap DESC LIMIT 10";
-      GetProducts($query);
-      ?>
-      </div>
-   </div>
-   <!-- hết sản phẩm mới nhất -->
 
+   <!--Kết quả -->
+   <div class="container">
+      <div class="row">
+        <?php
+        if (isset($_GET['id']) && isset($_GET['br']))
+            ShowSearchData();
+        ?>
+      </div>
+   </div>
    <!-- footer -->
    <?php include_once("./footer.php"); ?>
 </body>

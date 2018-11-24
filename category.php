@@ -1,27 +1,29 @@
-<?php 
-
-function GetProducts($query)
+<?php
+function ShowProducts()
 {
-   $res = DataProvider::ExecuteQuery($query);
-   while ($row = mysqli_fetch_array($res)) {
-      $maSanPham = $row['MaSanPham'];
-      $tenHienThi = $row['TenHienThi'];
-      $gia = $row['Gia'];
-      $urlHinh = $row['HinhURL'];
-      echo ('
-                <div class="col-xs-12 col-sm-6 col-md-3">
-                <a href="details.php?id=' . $maSanPham . '">
-                <div class="thumbnail effect">
-                    <img class="img-proc" src="' . $urlHinh . '" alt="" width="100%">
-                    <div class="productname">' . $tenHienThi . '</div>
-                    <h4 class="price">' . $gia . 'đ</h4>
-                </div>
-                </a>
-            </div>');
-   }
+    if (isset($_GET['cat'])) {
+        $cat = isset($_GET['cat']) ? $_GET['cat'] : '';
+        $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL from SANPHAM where MaLoai = $cat";
+        $res = DataProvider::ExecuteQuery($query);
+        while ($row = mysqli_fetch_array($res)) {
+            $maSanPham = $row['MaSanPham'];
+            $tenHienThi = $row['TenHienThi'];
+            $gia = $row['Gia'];
+            $urlHinh = $row['HinhURL'];
+            echo ('
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                        <a href="details.php?id=' . $maSanPham . '">
+                        <div class="thumbnail effect">
+                            <img class="img-proc" src="' . $urlHinh . '" alt="" width="100%">
+                            <div class="productname">' . $tenHienThi . '</div>
+                            <h4 class="price">' . $gia . 'đ</h4>
+                        </div>
+                        </a>
+                    </div>');
+        }
+    }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,36 +85,48 @@ function GetProducts($query)
       </div>
    </div>
 
-   <!--sản phẩm bán chạy nhất -->
-   <div class="container">
-      <h3 class="title text-left SPBanChay">SẢN PHẨM BÁN CHẠY NHẤT</h3>
-      <div class="row">
-        <?php 
-         $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY SoLuongBan DESC LIMIT 10";
-         GetProducts($query);
-         ?>
-      </div>
+    <div class="container">
+    <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-8">
+                <div class="manunew mobile-img">
+                    <?php 
+                    if (isset($_GET['cat'])) {
+                        $cat = $_GET['cat'];
+                        $query = "SELECT DISTINCT (hsx.MaHangSanXuat), hsx.LogoURL FROM sanpham sp join hangsanxuat hsx on sp.MaHangSanXuat = hsx.MaHangSanXuat where sp.MaLoai = $cat";
+                        $res = DataProvider::ExecuteQuery($query);
+                        while ($row = mysqli_fetch_array($res)) {
+                            $MaHangSanXuat = $row['MaHangSanXuat'];
+                            $Logo = $row['LogoURL'];
+                            echo ('<a href="brand.php?id=' . $cat . '&br=' . $MaHangSanXuat . '"><img src="' . $Logo . '"/></a>');
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- hết logo cửa hãng sx -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="header-top mobile"></div>
+            </div>
+        </div>
    </div>
-   <!--hết sản phẩm bán chạy nhất -->
-   <div class="container">
-      <div class="row">
-         <div class="col-md-12">
-            <div class="header-top"></div>
-         </div>
-      </div>
-   </div>
-   <!--sản phẩm bán mới nhất -->
-   <div class="container">
-      <h3 class="title text-left SPBanChay">SẢN PHẨM MỚI NHẤT</h3>
-      <div class="row">
-      <?php 
-      $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY NgayNhap DESC LIMIT 10";
-      GetProducts($query);
-      ?>
-      </div>
-   </div>
-   <!-- hết sản phẩm mới nhất -->
 
+   <!--Kết quả -->
+   <div class="container">
+      <?php 
+        $cat = isset($_GET['cat']) ? $_GET['cat'] : '';
+        $query = "SELECT TenLoai FROM loaisanpham where MaLoai = $cat";
+        $res = DataProvider::ExecuteQuery($query);
+        while ($row = mysqli_fetch_array($res))
+            $name = $row['TenLoai'];
+        echo '<h3 class="title text-left SPBanChay">' . $name . ' nổi bật</h3><div class="row">';
+        ShowProducts();
+        ?>
+      </div>
+   </div>
    <!-- footer -->
    <?php include_once("./footer.php"); ?>
 </body>
