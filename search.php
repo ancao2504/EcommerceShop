@@ -3,14 +3,14 @@ include_once("./database.php");
 
 function ShowSearchData()
 {
-    if (isset($_GET['q'])) {
-        $q = isset($_GET['q']) ? $_GET['q'] : '';
+    if (isset($_GET["q"])) {
+        $q = $_GET["q"];
         $query = "SELECT * FROM sanpham WHERE TenSanPham LIKE N'%$q%' OR MoTa LIKE N'%$q%'";
         $res = DataProvider::ExecuteQuery($query);
         while ($row = mysqli_fetch_array($res)) {
             $maSanPham = $row['MaSanPham'];
             $tenHienThi = $row['TenHienThi'];
-            $gia = $row['Gia'];
+            $gia = number_format($row['Gia'], 0, ".", ".");
             $urlHinh = $row['HinhURL'];
             echo ('
                     <div class="col-xs-12 col-sm-6 col-md-3">
@@ -92,8 +92,7 @@ function ShowSearchData()
       <h3 class="title text-left SPBanChay">Kết quả tìm kiếm</h3>
       <div class="row">
         <?php
-        if (isset($_GET['q']))
-            ShowSearchData();
+        ShowSearchData();
         ?>
       </div>
    </div>

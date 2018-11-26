@@ -16,20 +16,22 @@ echo ('<div class="container-fluid header">
                         <li><a href="#">LIÊN HỆ</a></li>
                         <li><a href="#search"><i class="fa fa-search"></i></a></li>
                         <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        <li class="dropdown"><a href="sign_in.html"><i class="fa fa-user-o"></i></a></li>
+                        <li class="dropdown"><a href="login.php"><i class="fa fa-user-o"></i></a></li>
                     </ul>
                 </div>
             </div>
             </div>
     </div>
+
     <div class="container-fluid">
         <div id="search">
-            <form action="index.php" method="GET">
+            <form action="search.php" method="GET">
                 <input type="search" name="q" placeholder="Tìm sản phẩm mong muốn ..."/>
-                <button type="submit" class="btn btn-md" name="searchBtn">Tìm kiếm</button>
+                <button type="submit" class="btn btn-md">Tìm kiếm</button>
             </form>
         </div>
     </div>
+    
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -37,4 +39,6 @@ echo ('<div class="container-fluid header">
             </div>
         </div>
     </div>');
+
+
 ?>

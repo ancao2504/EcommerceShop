@@ -6,7 +6,7 @@ function GetProducts($query)
    while ($row = mysqli_fetch_array($res)) {
       $maSanPham = $row['MaSanPham'];
       $tenHienThi = $row['TenHienThi'];
-      $gia = $row['Gia'];
+      $gia = number_format($row['Gia'], 0, ".", ".");
       $urlHinh = $row['HinhURL'];
       echo ('
                 <div class="col-xs-12 col-sm-6 col-md-3">
@@ -81,7 +81,19 @@ function GetProducts($query)
             <div class="header-top"></div>
          </div>
       </div>
+   </div> 
+
+   <!--sản phẩm bán mới nhất -->
+   <div class="container">
+      <h3 class="title text-left SPBanChay">SẢN PHẨM MỚI NHẤT</h3>
+      <div class="row">
+      <?php 
+      $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY NgayNhap DESC LIMIT 10";
+      GetProducts($query);
+      ?>
+      </div>
    </div>
+   <!-- hết sản phẩm mới nhất -->
 
    <!--sản phẩm bán chạy nhất -->
    <div class="container">
@@ -101,17 +113,7 @@ function GetProducts($query)
          </div>
       </div>
    </div>
-   <!--sản phẩm bán mới nhất -->
-   <div class="container">
-      <h3 class="title text-left SPBanChay">SẢN PHẨM MỚI NHẤT</h3>
-      <div class="row">
-      <?php 
-      $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY NgayNhap DESC LIMIT 10";
-      GetProducts($query);
-      ?>
-      </div>
-   </div>
-   <!-- hết sản phẩm mới nhất -->
+   
 
    <!-- footer -->
    <?php include_once("./footer.php"); ?>

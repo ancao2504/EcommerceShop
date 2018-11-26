@@ -11,7 +11,7 @@ function GetDetailsProduct()
 
         while ($row = mysqli_fetch_array($res)) {
             $tenSanPham = $row['TenSanPham'];
-            $gia = $row['Gia'];
+            $gia = number_format($row['Gia'], 0, ".", ".");
             $luotXem = $row['LuotXem'];
             $soLuongBan = $row['SoLuongBan'];
             $moTa = $row['MoTa'];
