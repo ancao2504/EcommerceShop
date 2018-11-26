@@ -5,7 +5,7 @@ function ShowSearchData()
 {
     if (isset($_GET["q"])) {
         $q = $_GET["q"];
-        $query = "SELECT * FROM sanpham WHERE TenSanPham LIKE N'%$q%' OR MoTa LIKE N'%$q%'";
+        $query = "SELECT * FROM sanpham WHERE TenSanPham LIKE N'%$q%'";
         $res = DataProvider::ExecuteQuery($query);
         while ($row = mysqli_fetch_array($res)) {
             $maSanPham = $row['MaSanPham'];
