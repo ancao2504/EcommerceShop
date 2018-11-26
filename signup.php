@@ -45,7 +45,7 @@
                     <div class="form-group row">
                         <label for="validationTooltip01" class="col-md-4 col-form-label text-right">Họ tên của bạn</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control thongtin" id="fullname" name="fullname" >
+                            <input type="text" class="form-control thongtin" id="fullname" name="fullname">
                             <div class="valid-feedback">
                                 Xin chào bạn!
                             </div>
@@ -160,7 +160,7 @@
                         <label for="validationTooltip03" class="col-md-4 col-form-label text-right">Tên đăng nhập <span style="color: red;">*</span></label>
                         <div class="col-md-8">
                             <input type="text" class="form-control thongtin-2" id="usernameInput" name="usernameInput" >
-                            <input type="submit" name="submit" id="submit" value="Kiểm tra" onclick="Check()" />
+                            <input type="submit" name="submit" id="submit" value="Kiểm tra"/>
                             <div class="invalid-feedback">
                                 Vui lòng nhập tên đăng nhập.
                             </div>
@@ -181,12 +181,27 @@
                     </div>
                     
                     <h5>Mã Kiểm Tra</h5>
-                    <div id="showerror"></div>
+                    <div class="form-group row">
+                        <label for="validationTooltip04" class="col-md-4 col-form-label text-right">Mã kiểm tra <span style="color: red;">*</span></label>
+                        <div class="col-md-5">
+                           
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="validationTooltip04" class="col-md-4 col-form-label text-right">Nhập mã kiểm tra <span style="color: red;">*</span></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control thongtin" id="captcha" name="captcha" />
+                            <div class="invalid-feedback">
+                                Vui lòng nhập mã kiểm tra.
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group row">
                         <label for="" class="col-md-4"></label>
                         <div class="col-md-8">
-                            <p>Bằng việc click vào nút Đăng ký bạn đã đồng ý <a href="#" style="color: #0070c9; text-decoration: none;"> Điều khoản sử dụng</a></p>     
+                            <p>Bằng việc click vào nút Đăng ký bạn đã đồng ý <a href="#" style="color: #0070c9; text-decoration: none;"> Điều khoản sử dụng</a></p>
+                            <button class="btn gui" id="submit" type="submit">Đăng Ký</button>
                         </div>
                     </div>
                 </form>
@@ -198,42 +213,6 @@
 
     <?php include_once("./footer.php"); ?>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script language="javascript">
-                    //$('form').submit(function()
-                    //$("#submit").click(function()
-                    function Check(){
-                        $('#showerror').html('');
-                        var username = $('usernameInput').val();
-
-                        $.ajax({
-                            url : './signup_validate.php',
-                            type : 'post',
-                            dataType : 'json',
-                            data : {
-                                username : username
-                            },
-                            success : function(result){
-                                // kiểm tra xem thông tin gửi lên có bị lỗi không
-                                // đây là kết quả trả về từ trang signup_validate.php
-                                if (!result.hasOwnProperty('error') || result['error'] != success)
-                                    return false;
-                                var html = '';
-
-                                // lấy thông tin lỗi username
-                                if ($.trim(result.username) != '')
-                                    html += result.username + '<br/>'
-                                
-                                if (html != '')
-                                    $('showerror').append(html);
-                                else {
-                                    $('showerror').append('Thêm thành công');
-                                }
-                            }      
-                        });
-
-                        return false;
-                    })
-                </script>
+    
 </body>
 </html>
