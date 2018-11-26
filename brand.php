@@ -3,16 +3,16 @@ include_once("./database.php");
 
 function ShowSearchData()
 {
-    $id = isset($_GET['id']) ? $_GET['id'] : '';
-    $br = isset($_GET['br']) ? $_GET['br'] : '';
-    $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE MaLoai = $id AND MaHangSanXuat = $br";
-    $res = DataProvider::ExecuteQuery($query);
-    while ($row = mysqli_fetch_array($res)) {
-        $maSanPham = $row['MaSanPham'];
-        $tenHienThi = $row['TenHienThi'];
-        $gia = $row['Gia'];
-        $urlHinh = $row['HinhURL'];
-        echo ('
+   $id = $_GET['id'];
+   $br = $_GET['br'];
+   $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE MaLoai = $id AND MaHangSanXuat = $br";
+   $res = DataProvider::ExecuteQuery($query);
+   while ($row = mysqli_fetch_array($res)) {
+      $maSanPham = $row['MaSanPham'];
+      $tenHienThi = $row['TenHienThi'];
+      $gia = $row['Gia'];
+      $urlHinh = $row['HinhURL'];
+      echo ('
                     <div class="col-xs-12 col-sm-6 col-md-3">
                     <a href="details.php?id=' . $maSanPham . '">
                     <div class="thumbnail effect">
@@ -22,7 +22,7 @@ function ShowSearchData()
                     </div>
                     </a>
                     </div>');
-    }
+   }
 }
 ?>
 
@@ -91,17 +91,17 @@ function ShowSearchData()
             <div class="col-xs-12 col-sm-12 col-md-8">
                 <div class="manunew mobile-img">
                     <?php 
-                    if (isset($_GET['id'])) {
+                     if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         $id = $_GET['id'];
                         $query = "SELECT DISTINCT (hsx.MaHangSanXuat), hsx.LogoURL FROM sanpham sp join hangsanxuat hsx on sp.MaHangSanXuat = hsx.MaHangSanXuat where sp.MaLoai = $id";
                         $res = DataProvider::ExecuteQuery($query);
                         while ($row = mysqli_fetch_array($res)) {
-                            $MaHangSanXuat = $row['MaHangSanXuat'];
-                            $Logo = $row['LogoURL'];
-                            echo ('<a href="brand.php?id=' . $id . '&br=' . $MaHangSanXuat . '"><img src="' . $Logo . '"/></a>');
+                           $MaHangSanXuat = $row['MaHangSanXuat'];
+                           $Logo = $row['LogoURL'];
+                           echo ('<a href="brand.php?id=' . $id . '&br=' . $MaHangSanXuat . '"><img src="' . $Logo . '"/></a>');
                         }
-                    }
-                    ?>
+                     }
+                     ?>
                 </div>
             </div>
         </div>
@@ -119,9 +119,9 @@ function ShowSearchData()
    <div class="container">
       <div class="row">
         <?php
-        if (isset($_GET['id']) && isset($_GET['br']))
+         if (isset($_GET['id']) && isset($_GET['br']) && is_numeric($_GET['id']) && is_numeric($_GET['br']))
             ShowSearchData();
-        ?>
+         ?>
       </div>
    </div>
    <!-- footer -->

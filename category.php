@@ -1,26 +1,23 @@
 <?php
-function ShowProducts()
+function ShowProducts($cat)
 {
-   if (isset($_GET['cat'])) {
-      $cat = isset($_GET['cat']) ? $_GET['cat'] : '';
-      $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL from SANPHAM where MaLoai = $cat";
-      $res = DataProvider::ExecuteQuery($query);
-      while ($row = mysqli_fetch_array($res)) {
-         $maSanPham = $row['MaSanPham'];
-         $tenHienThi = $row['TenHienThi'];
-         $gia = number_format($row['Gia'], 0, ".", ".");
-         $urlHinh = $row['HinhURL'];
-         echo ('
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                        <a href="details.php?id=' . $maSanPham . '">
-                        <div class="thumbnail effect">
-                            <img class="img-proc" src="' . $urlHinh . '" alt="" width="100%">
-                            <div class="productname">' . $tenHienThi . '</div>
-                            <h4 class="price">' . $gia . 'đ</h4>
-                        </div>
-                        </a>
-                    </div>');
-      }
+   $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL from SANPHAM where MaLoai = $cat";
+   $res = DataProvider::ExecuteQuery($query);
+   while ($row = mysqli_fetch_array($res)) {
+      $maSanPham = $row['MaSanPham'];
+      $tenHienThi = $row['TenHienThi'];
+      $gia = number_format($row['Gia'], 0, ".", ".");
+      $urlHinh = $row['HinhURL'];
+      echo ('
+            <div class="col-xs-12 col-sm-6 col-md-3">
+            <a href="details.php?id=' . $maSanPham . '">
+            <div class="thumbnail effect">
+                  <img class="img-proc" src="' . $urlHinh . '" alt="" width="100%">
+                  <div class="productname">' . $tenHienThi . '</div>
+                  <h4 class="price">' . $gia . 'đ</h4>
+            </div>
+            </a>
+         </div>');
    }
 }
 ?>
@@ -90,7 +87,7 @@ function ShowProducts()
             <div class="col-xs-12 col-sm-12 col-md-8">
                 <div class="manunew mobile-img">
                     <?php 
-                     if (isset($_GET['cat'])) {
+                     if (isset($_GET['cat']) && is_numeric($_GET['cat'])) {
                         $cat = $_GET['cat'];
                         $query = "SELECT DISTINCT (hsx.MaHangSanXuat), hsx.LogoURL FROM sanpham sp join hangsanxuat hsx on sp.MaHangSanXuat = hsx.MaHangSanXuat where sp.MaLoai = $cat";
                         $res = DataProvider::ExecuteQuery($query);
@@ -117,13 +114,15 @@ function ShowProducts()
    <!--Kết quả -->
    <div class="container">
       <?php 
-      $cat = isset($_GET['cat']) ? $_GET['cat'] : '';
-      $query = "SELECT TenLoai FROM loaisanpham where MaLoai = $cat";
-      $res = DataProvider::ExecuteQuery($query);
-      while ($row = mysqli_fetch_array($res))
-         $name = $row['TenLoai'];
-      echo '<h3 class="title text-left SPBanChay">' . $name . ' nổi bật</h3><div class="row">';
-      ShowProducts();
+      if (isset($_GET['cat']) && is_numeric($_GET['cat'])) {
+         $cat = $_GET['cat'];
+         $query = "SELECT TenLoai FROM loaisanpham where MaLoai = $cat";
+         $res = DataProvider::ExecuteQuery($query);
+         while ($row = mysqli_fetch_array($res))
+            $name = $row['TenLoai'];
+         echo '<h3 class="title text-left SPBanChay">' . $name . ' nổi bật</h3><div class="row">';
+         ShowProducts($cat);
+      }
       ?>
       </div>
    </div>

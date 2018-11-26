@@ -3,7 +3,7 @@ include_once("./database.php");
 
 function GetDetailsProduct()
 {
-    if (isset($_GET['id'])) {
+    if (isset($_GET['id']) &&  is_numeric($_GET['id'])) {
         $maSanPham = $_GET['id'];
 
         $query = "SELECT * FROM sanpham WHERE MaSanPham = $maSanPham";
