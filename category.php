@@ -1,4 +1,6 @@
 <?php
+include_once("./database.php");
+
 function ShowProducts($cat)
 {
    $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL from SANPHAM where MaLoai = $cat";

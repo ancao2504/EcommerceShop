@@ -1,4 +1,5 @@
-<?php 
+<?php
+include_once("./database.php");
 
 function GetProducts($query)
 {

@@ -1,5 +1,4 @@
 <?php
-include_once("./database.php");
 
 echo ('<div class="container-fluid header">
         <div class="container">
@@ -39,6 +38,4 @@ echo ('<div class="container-fluid header">
             </div>
         </div>
     </div>');
-
-
 ?>

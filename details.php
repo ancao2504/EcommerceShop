@@ -319,6 +319,6 @@ function GetDetailsProduct()
     
     <!--  hết phần thông tin chi tiết -->   
 
-    <?php include("./footer.php"); ?>
+    <?php include_once("./footer.php"); ?>
 </body>
 </html>
