@@ -159,8 +159,8 @@
                     <div class="form-group  row">
                         <label for="validationTooltip03" class="col-md-4 col-form-label text-right">Tên đăng nhập <span style="color: red;">*</span></label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control thongtin-2" id="usernameInput" name="usernameInput" >
-                            <input type="submit" name="submit" id="submit" value="Kiểm tra"/>
+                            <input type="text" class="form-control thongtin" id="username" name="username" >
+                            <span id="availability"></span>
                             <div class="invalid-feedback">
                                 Vui lòng nhập tên đăng nhập.
                             </div>
@@ -169,13 +169,13 @@
                     <div class="form-group row">
                         <label for="validationTooltip04" class="col-md-4 col-form-label text-right">Mật khẩu <span style="color: red;">*</span></label>
                         <div class="col-md-8">
-                            <input type="password" class="form-control thongtin" id="passwordInput" name="passwordInput">
+                            <input type="password" class="form-control thongtin" id="password" name="password">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="validationTooltip05" class="col-md-4 col-form-label text-right">Xác nhận mật khẩu <span style="color: red;">*</span></label>
                         <div class="col-md-8">
-                            <input type="password" class="form-control thongtin" id="confirmPasswordInput" name="confirmPasswordInput" >
+                            <input type="password" class="form-control thongtin" id="confirmPassword" name="confirmPassword" >
                             <p><div class="" id="passwordStrength"></div></p>
                         </div>
                     </div>
@@ -201,7 +201,7 @@
                         <label for="" class="col-md-4"></label>
                         <div class="col-md-8">
                             <p>Bằng việc click vào nút Đăng ký bạn đã đồng ý <a href="#" style="color: #0070c9; text-decoration: none;"> Điều khoản sử dụng</a></p>
-                            <button class="btn gui" id="submit" type="submit">Đăng Ký</button>
+                            <button class="btn gui" id="register" name="register" type="submit">Đăng Ký</button>
                         </div>
                     </div>
                 </form>
@@ -210,9 +210,35 @@
         </div>
     </div>
     <!-- hết phần đăng ký -->
+    
 
     <?php include_once("./footer.php"); ?>
 
-    
+    <script>
+        $(document).ready(function(){
+            $('#username').blur(function(){
+                var username = $(this).val();
+
+                $.ajax({
+                    url:'signup_validate.php',
+                    method:"POST",
+                    data:{user_name:username},
+                    success:function(data)
+                    {
+                        if(data != '0')
+                        {
+                            $('#availability').html('<span class="text-danger">Tài khoản đã tồn tại</span>');
+                            $('#register').attr("disabled", true);
+                        }
+                        else
+                        {
+                            $('#availability').html('<span class="text-success">Tài khoản hợp lệ</span>');
+                            $('#register').attr("disabled", false);
+                        }
+                    }
+                })
+            });
+        });
+    </script>
 </body>
 </html>

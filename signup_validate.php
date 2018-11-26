@@ -1,36 +1,12 @@
-<?php 
+<?php
 
-    include_once("./database.php");
-
-    // lấy thông tin username
-    $username = isset($_POST['usernameInput']) ? $_POST['usernameInput'] : false;
-
-    // nếu thông tin username rỗng thì dừng và báo lỗi
-    if (!$username)
-        die ('{error:"Bad_request"}');
-
-    // khai báo biến lưu lỗi
-    $error = array(
-        'error' => 'success',
-        'username' => ''
-    );
-
-    // kiểm tra username
-    if($username)
+    $connect = mysqli_connect("localhost", "root", "", "1660214_1660359_1660656_quanlysanpham");
+    if(isset($_POST["user_name"]))
     {
-        $query = "SELECT COUNT(*) as count from taikhoan where TenDangNhap = $username";
-        $res = DataProvider::ExecuteQuery($query);
-        $row = mysqli_fetch_array($res);
-        if((int)$row['count'] > 0)
-            $error['username'] = 'Tên đăng nhập đã tồn tại';
+        $username = mysqli_real_escape_string($connect, $_POST["user_name"]);
+        $query = "SELECT * FROM taikhoan WHERE TenDangNhap = '".$username."'";
+        $res = mysqli_query($connect, $query);
+        echo mysqli_num_rows($res);
+        mysqli_close($connect);
     }
-
-    // lưu vào csdl
-    if (!error['username'])
-    {
-        $query = "insert into taikhoan(TenDangNhap) value ('$username')";
-        DataProvider::ExecuteQuery(query);
-    }
-
-    die (json_encode($error));
 ?>
