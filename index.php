@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once("./database.php");
 
 function GetProducts($query)

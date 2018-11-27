@@ -10,6 +10,7 @@ if (isset($_POST["register"])) {
     $city = $_POST["city"];
     $username = $_POST["username"];
     $password = $_POST["password"];
+    $password = md5($password);
 
     $query = "INSERT IGNORE INTO taikhoan(TenDangNhap, MatKhau, HoTen, NgaySinh, DiaChi) VALUES('$username', '$password', '$fullname', '$dob', '$city')";
     $res = DataProvider::ExecuteQuery($query);

@@ -1,4 +1,6 @@
-<?php include_once("./database.php"); ?>
+<?php
+session_start();
+include_once("./database.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,6 +9,33 @@
     <title>Đăng Nhập</title>
 </head>
 <body>
+    <?php
+        if(isset($_POST["btnSubmit"]))
+        {
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+
+            // xoá bỏ các tag html, kí tự đặc biệt nhằm tránh sql injection
+            $username = strip_tags($username);
+            $username = addslashes($username);
+            $password = strip_tags($password);
+            $password = addslashes($password);
+
+            $query = "SELECT TenDangNhap, MatKhau from taikhoan WHERE TenDangNhap = '$username' AND MatKhau = '$password' ";
+            $res = DataProvider::ExecuteQuery($query);
+            if($res == 0)
+            {
+                echo "Tên đăng nhập hoặc mật khẩu không đúng !";
+            } else 
+            {
+                // lưu tên đăng nhập vào sesion
+                $_SESSION['username'] = $username;
+                echo "Đăng nhập thành công";
+                header('Location:index.php');
+            }
+        }
+    ?>
+
     <!-- thanh menu -->
     <?php include_once("./menu.php"); ?>
 
@@ -24,20 +53,20 @@
             <div class="col-xs-12 col-sm-12 col-md-5 sign_in">
                 <h5>Đăng Nhập</h5>
 
-                <form class="needs-validation" novalidate>
+                <form action="login.php" class="needs-validation" method="POST" novalidate>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="inlineFormInputName" placeholder="Tên Đăng Nhập" required>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Tên Đăng Nhập" required>
                         <div class="invalid-feedback">
                             Vui lòng nhập tên đăng nhập.
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mật Khẩu" required>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Mật Khẩu" required>
                         <div class="invalid-feedback">
                             Vui lòng nhập mật khẩu.
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-lg btn-dangnhap">Đăng Nhập</button>
+                    <button type="submit" name="btnSubmit" class="btn btn-lg btn-dangnhap">Đăng Nhập</button>
                 </form>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-7">
