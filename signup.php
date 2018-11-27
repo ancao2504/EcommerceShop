@@ -1,4 +1,26 @@
-<?php include_once("./database.php"); ?>
+<?php 
+include_once("./database.php");
+if (isset($_POST["register"])) {
+    $fullname = $_POST["fullname"];
+    $myDay = $_POST["day"];
+    $myMonth = $_POST["month"];
+    $myYear = $_POST["year"];
+    $dob = new DateTime($myYear . '-' . $myMonth . '-' . $myDay);
+    $dob = $dob->format('Y-m-d');
+    $city = $_POST["city"];
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $query = "INSERT IGNORE INTO taikhoan(TenDangNhap, MatKhau, HoTen, NgaySinh, DiaChi) VALUES('$username', '$password', '$fullname', '$dob', '$city')";
+    $res = DataProvider::ExecuteQuery($query);
+    if ($res) {
+        echo "<script type=\"text/javascript\">"."alert('Tạo tài khoản thành công');"."location.href=\"index.php\";"."</script>";
+        
+    } else {
+        echo "<script type=\"text/javascript\">"."alert('Tạo tài khoản thất bại');"."location.href=\"signup.php\";"."</script>";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,50 +62,44 @@
         <div class="row">
             <div class="col-xs-0 col-sm-0 col-md-2"></div>
             <div class="col-xs-12 col-sm-12 col-md-8">
-                <form action="" method="POST" class="needs-validation" novalidate>
+                <form action="" method="POST"  class="needs-validation" novalidate>
                     <h5>Thông Tin Cá Nhân</h5>
                     <div class="form-group row">
                         <label for="validationTooltip01" class="col-md-4 col-form-label text-right">Họ tên của bạn</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control thongtin" id="fullname" name="fullname">
-                            <div class="valid-feedback">
-                                Xin chào bạn!
+                            <input type="text" class="form-control thongtin" id="fullname" name="fullname" required>
+                            <div class="invalid-feedback">
+                                Hãy nhập họ tên
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="validationTooltip02" class="col-md-4 col-form-label text-right">Ngày sinh</label>
+                        <div class="col-md-3">
+                            <select class="custom-select" name="year" id="year" required></select>
+                            <div class="invalid-feedback">
+                                Hãy chọn năm sinh.
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="custom-select" name="month" id="month" required></select>
+                            <div class="invalid-feedback">
+                                Hãy chọn tháng sinh.
+                            </div>
+                        </div>
                         <div class="col-md-2">
-                            <select class="custom-select" name="day" id="day" >
-                                <option selected="selected">[Ngày]</option>
+                            <select class="custom-select" name="day" id="day" required>
+                                <option value=" " selected="selected">[Ngày]</option>
                             </select>
                             <div class="invalid-feedback">
                                 Hãy chọn ngày sinh.
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <select class="custom-select" name="month" id="month">
-                                <option selected="selected">[Tháng]</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Hãy chọn tháng sinh.
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="custom-select" name="year" id="year">
-                                <option selected="selected">[Năm]</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Hãy chọn năm sinh.
-                            </div>
-                        </div>
-                        
-                        
                     </div>
                     <div class="form-group row">
                         <label for="validationTooltip01" class="col-md-4 col-form-label text-right">Bạn sống tại</label>
                         <div class="col-md-8">
-                            <select class="custom-select" >
+                            <select class="custom-select" name="city" required>
                                 <option value="">-- Chọn Thành Phố --</option>
                                 <option value="An Giang">An Giang</option>
                                 <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
@@ -159,7 +175,7 @@
                     <div class="form-group  row">
                         <label for="validationTooltip03" class="col-md-4 col-form-label text-right">Tên đăng nhập <span style="color: red;">*</span></label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control thongtin" id="username" name="username" >
+                            <input type="text" class="form-control thongtin" id="username" name="username" required>
                             <span id="availability"></span>
                             <div class="invalid-feedback">
                                 Vui lòng nhập tên đăng nhập.
@@ -169,13 +185,20 @@
                     <div class="form-group row">
                         <label for="validationTooltip04" class="col-md-4 col-form-label text-right">Mật khẩu <span style="color: red;">*</span></label>
                         <div class="col-md-8">
-                            <input type="password" class="form-control thongtin" id="password" name="password">
+                            <input type="password" class="form-control thongtin" id="password" name="password" required>
+                            <div class="invalid-feedback">
+                                Vui lòng nhập mật khẩu.
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="validationTooltip05" class="col-md-4 col-form-label text-right">Xác nhận mật khẩu <span style="color: red;">*</span></label>
                         <div class="col-md-8">
-                            <input type="password" class="form-control thongtin" id="confirmPassword" name="confirmPassword" >
+                            <input type="password" class="form-control thongtin" id="confirmPassword" name="confirmPassword" required>
+                            <div class="invalid-feedback">
+                                Vui lòng nhập lại mật khẩu.
+                            </div>
+                            <span id="matchpwd"></span>
                             <p><div class="" id="passwordStrength"></div></p>
                         </div>
                     </div>
@@ -201,7 +224,7 @@
                         <label for="" class="col-md-4"></label>
                         <div class="col-md-8">
                             <p>Bằng việc click vào nút Đăng ký bạn đã đồng ý <a href="#" style="color: #0070c9; text-decoration: none;"> Điều khoản sử dụng</a></p>
-                            <button class="btn gui" id="register" name="register" type="submit">Đăng Ký</button>
+                            <button type="submit" class="btn gui" id="register" name="register" disabled>Đăng Ký</button>
                         </div>
                     </div>
                 </form>
@@ -238,6 +261,17 @@
                     }
                 })
             });
+        });
+        $('#password, #confirmPassword').on('keyup', function(){
+            if ($('#password').val() == $('#confirmPassword').val())
+            {
+                $('#matchpwd').html('Mật khẩu trùng khớp').css('color', 'green');
+                $('#register').prop('disabled', false);
+            } else 
+            {
+                $('#matchpwd').html('Mật khẩu không trùng khớp').css('color', 'red');
+                $('#register').prop('disabled', true);
+            }
         });
     </script>
 </body>

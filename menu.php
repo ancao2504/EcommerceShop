@@ -37,5 +37,6 @@ echo ('<div class="container-fluid header">
                 <div class="header-top"></div>
             </div>
         </div>
-    </div>');
+    </div>
+    <a href="#" class="gotopBtn"> <i class="fas fa-arrow-up"></i> </a>');
 ?>

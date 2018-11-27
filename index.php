@@ -34,6 +34,7 @@ function GetProducts($query)
    <!-- thanh menu -->
    <?php include_once("./menu.php"); ?>
    
+   
    <!-- slide -->
    <div class="container-fluid">
       <div class="row">
@@ -83,6 +84,8 @@ function GetProducts($query)
          </div>
       </div>
    </div> 
+
+   <a href="#" class="gotopBtn"> <i class="fas fa-arrow-up"></i> </a>
 
    <!--sản phẩm bán mới nhất -->
    <div class="container">
