@@ -14,7 +14,7 @@ function GetProducts($query)
                 <div class="col-xs-12 col-sm-6 col-md-3">
                 <a href="details.php?id=' . $maSanPham . '">
                 <div class="thumbnail effect">
-                    <img class="img-proc" src="' . $urlHinh . '" alt="" width="100%">
+                    <img class="img-proc" src="' . $urlHinh . '" width="100%">
                     <div class="productname">' . $tenHienThi . '</div>
                     <h4 class="price">' . $gia . 'đ</h4>
                 </div>

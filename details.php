@@ -3,7 +3,7 @@ include_once("./database.php");
 
 function GetDetailsProduct()
 {
-    if (isset($_GET['id']) &&  is_numeric($_GET['id'])) {
+    if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         $maSanPham = $_GET['id'];
 
         $query = "SELECT * FROM sanpham WHERE MaSanPham = $maSanPham";
@@ -28,11 +28,19 @@ function GetDetailsProduct()
 
         $queryHinh = "SELECT HinhURL FROM hinhanh WHERE MaSanPham = $maSanPham";
         $resHinh = DataProvider::ExecuteQuery($queryHinh);
-        $arr = [];
+        $arr = array();
         while ($row = mysqli_fetch_array($resHinh)) {
             $myURL = $row['HinhURL'];
             array_push($arr, $myURL);
         }
+
+        $querySPCungLoai = "SELECT MaSanPham, TenHienThi, HinhURL, concat(FORMAT(Gia, 0, 'de_DE'), 'Đ') as Gia  FROM sanpham where MaLoai = $maLoai and MaSanPham <> $maSanPham ORDER BY LuotXem DESC LIMIT 5";
+        $resSPCungLoai = DataProvider::ExecuteQuery($querySPCungLoai);
+        $arrSP = array();
+        while ($row = mysqli_fetch_array($resSPCungLoai)) {
+            $arrSP[] = $row;
+        }
+
 
         if ($maLoai == 1) {
             $query = "SELECT * FROM thongsokythuat WHERE MaSanPham = $maSanPham";
@@ -117,6 +125,52 @@ function GetDetailsProduct()
                                         <li class="g84_10882"><span>Dung lượng pin:</span>' . $dungLuongPin . '</li>
                                     </ul>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="recommend-product-item">
+                                <a href="details.php?id=' . $arrSP[0]['MaSanPham'] . '">
+                                    <div class="thumbnail effect">
+                                    <img class="img-proc" src="' . $arrSP[0]['HinhURL'] . '" width="100%">
+                                    <div class="productname">' . $arrSP[0]['TenHienThi'] . '</div>
+                                    <h4 class="price">' . $arrSP[0]['Gia'] . '</h4></div>
+                                </a>
+                            </div>
+                            <div class="recommend-product-item">
+                                <a href="details.php?id=' . $arrSP[1]['MaSanPham'] . '">
+                                    <div class="thumbnail effect">
+                                    <img class="img-proc" src="' . $arrSP[1]['HinhURL'] . '" width="100%">
+                                    <div class="productname">' . $arrSP[1]['TenHienThi'] . '</div>
+                                    <h4 class="price">' . $arrSP[1]['Gia'] . '</h4></div>
+                                </a>
+                            </div>
+                            <div class="recommend-product-item">
+                                <a href="details.php?id=' . $arrSP[2]['MaSanPham'] . '">
+                                    <div class="thumbnail effect">
+                                    <img class="img-proc" src="' . $arrSP[2]['HinhURL'] . '" width="100%">
+                                    <div class="productname">' . $arrSP[2]['TenHienThi'] . '</div>
+                                    <h4 class="price">' . $arrSP[2]['Gia'] . '</h4></div>
+                                </a>
+                            </div>
+                            <div class="recommend-product-item">
+                                <a href="details.php?id=' . $arrSP[3]['MaSanPham'] . '">
+                                    <div class="thumbnail effect">
+                                    <img class="img-proc" src="' . $arrSP[3]['HinhURL'] . '" width="100%">
+                                    <div class="productname">' . $arrSP[3]['TenHienThi'] . '</div>
+                                    <h4 class="price">' . $arrSP[3]['Gia'] . '</h4></div>
+                                </a>
+                            </div>
+                            <div class="recommend-product-item">
+                                <a href="details.php?id=' . $arrSP[4]['MaSanPham'] . '">
+                                    <div class="thumbnail effect">
+                                    <img class="img-proc" src="' . $arrSP[4]['HinhURL'] . '" width="100%">
+                                    <div class="productname">' . $arrSP[4]['TenHienThi'] . '</div>
+                                    <h4 class="price">' . $arrSP[4]['Gia'] . '</h4></div>
+                                </a>
                             </div>
                         </div>
                     </div>

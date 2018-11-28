@@ -6,6 +6,11 @@ class DataProvider
         $connecionString = mysqli_connect("localhost", "root", "", "1660214_1660359_1660656_quanlysanpham") or die("Cannot connect Database");
         mysqli_set_charset($connecionString, "utf8");
         $res = mysqli_query($connecionString, $query);
+        if (!$res)
+        {
+            printf("Error: %s\n", mysqli_error($connecionString));
+            exit();
+        }
         mysqli_close($connecionString);
         return $res;
     }
