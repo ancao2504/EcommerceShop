@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once("./database.php");
 
 function GetProducts($query)
@@ -20,7 +19,7 @@ function GetProducts($query)
                 </div>
                 </a>
             </div>');
-   }   
+   }
 }
 ?>
 
@@ -34,7 +33,6 @@ function GetProducts($query)
 <body>
    <!-- thanh menu -->
    <?php include_once("./menu.php"); ?>
-   
    
    <!-- slide -->
    <div class="container-fluid">

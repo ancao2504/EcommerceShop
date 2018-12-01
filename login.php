@@ -1,6 +1,12 @@
 <?php
-session_start();
-include_once("./database.php"); 
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+}
+if(isset($_SESSION['username']))
+    header('location: index.php');
+else {
+    include_once("./database.php"); 
 
     if(isset($_POST["username"]) && isset($_POST["password"]))
     {
@@ -19,7 +25,7 @@ include_once("./database.php");
             $_SESSION['error'] = $error;
             header('location: login.php');
             exit();
-            
+
         } else {
             $_SESSION['username'] = $username;
             unset($_SESSION['error']);
@@ -45,16 +51,14 @@ include_once("./database.php");
     <?php include_once("./header.php"); ?>
     <title>Đăng Nhập</title>
 </head>
-<body onsubmit="MyErr();">
+<body>
     <!-- thanh menu -->
     <?php include_once("./menu.php"); ?>
-
     <!-- đăng nhập -->
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-5 sign_in">
                 <h5>Đăng Nhập</h5>
-
                 <form action="login.php" class="needs-validation" method="POST" novalidate>
                     <div class="form-group">
                         <input type="text" class="form-control" name="username" id="username" placeholder="Tên Đăng Nhập" required>
@@ -78,7 +82,6 @@ include_once("./database.php");
                 </form>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-7">
-
             </div>
             <div class="col-xs-12 col-sm-12 col-md-5">
                 <div class="row quenmatkhau">
@@ -89,7 +92,6 @@ include_once("./database.php");
         </div>
     </div>
     <!-- hết phần đăng nhập -->
-
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -97,8 +99,9 @@ include_once("./database.php");
             </div>
         </div>
     </div>
-
     <!-- footer -->
     <?php include_once("./footer.php"); ?>
-</body>
+    </body>
 </html>
+
+<?php } ?>
