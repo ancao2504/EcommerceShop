@@ -24,13 +24,13 @@
 .menu ul li a{
     font-size: 14px;
     line-height: 3.14286;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: -.01em;
     color: #fff;
     position: relative;
     z-index: 1;
     display: inline-block;
-    padding: 0 30px;
+    padding: 0 28px;
     height: 44px;
     text-decoration: none;
 }
@@ -104,6 +104,11 @@ i.fa.fa-user-o.user.dropbtn{
     text-decoration: none;
 }
 .col-md-3 a .effect img:hover{
+    transition: 0.15s;
+    transform: scale(0.95);
+}
+/* hover 5 sản phẩm */
+.recommend-product-item:hover img{
     transition: 0.15s;
     transform: scale(0.95);
 }
@@ -237,15 +242,15 @@ button.btn.btn-lg{
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column; }
-    @media screen and (max-width: 996px) {
+@media screen and (max-width: 996px) {
     .preview {
-        margin-bottom: 20px; } }
+    margin-bottom: 20px; } }
 
 .preview-pic {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1; }
+    -ms-flex-positive: 1;
+    flex-grow: 1; }
 
 .preview-thumbnail.nav-tabs {
     border: none;
@@ -666,6 +671,88 @@ label {
     float: left;
 }
 /* hết phần sản phẩm liên quan */
+
+/* thanh search */
+.input-search{
+    width: 130px;
+    margin-left: 90px;
+    height: 30px;
+    margin-top: 3px;
+    color: white;
+    padding-left: 10px;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.btn-search{
+    margin-top: 5px;
+    background: none;
+    border: none;
+    outline: none !important;
+    cursor: pointer;
+}
+.fa.fa-search{
+    margin-top: 7px;
+}
+/* hết thanh search */
+label.col-sm-2.col-form-label{
+    color: #333;
+}
+
+/* phần thông tin tài khoản */
+a.nav-item.nav-link{
+    color: #333;
+}
+.switch {
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    width: 55px;
+}
+
+.switch input {
+    display:none;
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    }
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 21px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 21px;
+}
+
+input:checked + .slider {
+    background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+/* hết phần thông tin tài khoản */
 
 /* phần reponse */
 @media (max-width: 575.98px) {

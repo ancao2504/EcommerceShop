@@ -5,7 +5,7 @@ function ShowSearchData()
 {
    if (isset($_GET["q"])) {
       $q = $_GET["q"];
-      $query = "SELECT * FROM sanpham WHERE TenSanPham LIKE N'%$q%'";
+      $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE TenSanPham LIKE N'%$q%'";
       $res = DataProvider::ExecuteQuery($query);
       while ($row = mysqli_fetch_array($res)) {
          $maSanPham = $row['MaSanPham'];
@@ -92,7 +92,7 @@ function ShowSearchData()
       <h3 class="title text-left SPBanChay">Kết quả tìm kiếm</h3>
       <div class="row">
         <?php
-         ShowSearchData();
+            ShowSearchData();
          ?>
       </div>
    </div>

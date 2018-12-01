@@ -21,17 +21,25 @@ include_once("./database.php"); ?>
             $password = strip_tags($password);
             $password = addslashes($password);
 
-            $query = "SELECT TenDangNhap, MatKhau from taikhoan WHERE TenDangNhap = '$username' AND MatKhau = '$password' ";
+            $query = "SELECT TenDangNhap, MatKhau, LoaiTaiKhoan from taikhoan WHERE TenDangNhap = '$username' AND MatKhau = '$password' ";
             $res = DataProvider::ExecuteQuery($query);
-            if($res == 0)
+            if(mysqli_num_rows($res) == 0)
             {
                 echo "Tên đăng nhập hoặc mật khẩu không đúng !";
-            } else 
-            {
-                // lưu tên đăng nhập vào sesion
+            } else {
                 $_SESSION['username'] = $username;
-                echo "Đăng nhập thành công";
-                header('Location:index.php');
+                $data = mysqli_fetch_assoc($res);
+                $_SESSION['LoaiTaiKhoan'] = $data['LoaiTaiKhoan'];
+                if($_SESSION['LoaiTaiKhoan'] == admin)
+                {
+                    header('Location:admin.php');
+                    exit();
+                }
+                else {
+                    echo "Đăng nhập thành công";
+                    header('Location:index.php');
+                    exit();
+                }
             }
         }
     ?>

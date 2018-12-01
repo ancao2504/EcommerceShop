@@ -156,3 +156,50 @@ $(function () {
         }
     });
 });
+
+/* shopping cart  */
+/* đặt tỉ lệ */
+var taxRate = 0.05;
+var shippingRate = 15.00; 
+var fadeTime = 300;
+
+
+/* Chỉ định tác vụ */
+$('.product-quantity input').change( function() {
+    updateQuantity(this);
+});
+
+$('.product-removal button').click( function() {
+    removeItem(this);
+});
+
+
+/* Xóa mục khỏi giỏ hàng */
+
+function removeItem(removeButton)
+{
+    var productRow = $(removeButton).parent().parent();
+    productRow.slideUp(fadeTime, function() {
+    productRow.remove();
+    recalculateCart();
+});
+}
+/* hết phần shopping cart */
+
+var showpassword = true;
+function showpass()
+{   
+    if(showpassword == true)
+    {
+        document.getElementById("password-group").style.display = 'block';
+        showpassword = false;
+        return;
+    }
+    else if(showpassword == false)
+    {
+        document.getElementById("password-group").style.display = 'none';
+        showpassword = true;
+        return;
+    }
+
+}

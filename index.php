@@ -20,7 +20,7 @@ function GetProducts($query)
                 </div>
                 </a>
             </div>');
-   }
+   }   
 }
 ?>
 
@@ -93,9 +93,17 @@ function GetProducts($query)
       <h3 class="title text-left SPBanChay">SẢN PHẨM MỚI NHẤT</h3>
       <div class="row">
       <?php 
-      $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY NgayNhap DESC LIMIT 10";
-      GetProducts($query);
+         $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY NgayNhap DESC LIMIT 10";
+         GetProducts($query);
       ?>
+      </div>
+   </div>
+
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="header-top"></div>
+         </div>
       </div>
    </div>
    <!-- hết sản phẩm mới nhất -->
@@ -105,20 +113,12 @@ function GetProducts($query)
       <h3 class="title text-left SPBanChay">SẢN PHẨM BÁN CHẠY NHẤT</h3>
       <div class="row">
         <?php 
-         $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY SoLuongBan DESC LIMIT 10";
-         GetProducts($query);
+            $query = "SELECT MaSanPham, TenHienThi, Gia, HinhURL FROM sanpham WHERE (MaLoai = 1 or MaLoai = 3 or MaLoai = 4) ORDER BY SoLuongBan DESC LIMIT 10";
+            GetProducts($query);
          ?>
       </div>
    </div>
    <!--hết sản phẩm bán chạy nhất -->
-   <div class="container">
-      <div class="row">
-         <div class="col-md-12">
-            <div class="header-top"></div>
-         </div>
-      </div>
-   </div>
-   
 
    <!-- footer -->
    <?php include_once("./footer.php"); ?>

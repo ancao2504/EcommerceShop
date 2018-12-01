@@ -12,23 +12,23 @@ echo ('<div class="container-fluid header">
                         <li><a href="category.php?cat=4">ĐỒNG HỒ</a></li>
                         <li><a href="category.php?cat=5">TV</a></li>
                         <li><a href="#">NHÀ SX</a></li>
-                        <li><a href="#">LIÊN HỆ</a></li>
-                        <li><a href="#search"><i class="fa fa-search"></i></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        <li class="dropdown"><a href="login.php"><i class="fa fa-user-o"></i></a></li>
+                        <li><a href="cart.php"><i class="fa fa-shopping-cart"></i></a></li>
+                        <li class="dropdown">
+                            <a href="login.php"><i class="fa fa-user-o"></i></a>
+                        </li>
+                        <li>
+                            <form action="search.php" method="GET">
+                                <input class="input-search" type="text" name="q" placeholder="Bạn tìm gì . . . ?">
+                                <button type="submit" class=" btn-search">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </form>
+                        </li>
+                       
                     </ul>
                 </div>
             </div>
             </div>
-    </div>
-
-    <div class="container-fluid">
-        <div id="search">
-            <form action="search.php" method="GET">
-                <input type="search" name="q" placeholder="Tìm sản phẩm mong muốn ..."/>
-                <button type="submit" class="btn btn-md">Tìm kiếm</button>
-            </form>
-        </div>
     </div>
     
     <div class="container">
