@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include_once("./database.php");
 
 function GetDetailsProduct()
@@ -6,7 +7,7 @@ function GetDetailsProduct()
     if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         $maSanPham = $_GET['id'];
 
-        $query = "SELECT * FROM sanpham WHERE MaSanPham = $maSanPham";
+        $query = "SELECT TenSanPham, Gia, LuotXem, SoLuongBan, MoTa, XuatXu, MaHangSanXuat, MaLoai FROM sanpham WHERE MaSanPham = $maSanPham";
         $res = DataProvider::ExecuteQuery($query);
 
         while ($row = mysqli_fetch_array($res)) {

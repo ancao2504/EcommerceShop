@@ -1,6 +1,43 @@
 <?php
 session_start();
-include_once("./database.php"); ?>
+include_once("./database.php"); 
+
+    if(isset($_POST["username"]) && isset($_POST["password"]))
+    {
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        $error = 'Tên đăng nhập hoặc mật khẩu không đúng ! <br />';
+        // xoá bỏ các tag html, kí tự đặc biệt nhằm tránh sql injection
+        $username = strip_tags($username);
+        $username = addslashes($username);
+        $password = strip_tags($password);
+        $password = addslashes($password);
+        $query = "SELECT TenDangNhap, MatKhau, LoaiTaiKhoan from taikhoan WHERE TenDangNhap = '$username' AND MatKhau = '$password' ";
+        $res = DataProvider::ExecuteQuery($query);
+        if(mysqli_num_rows($res) == 0)
+        {
+            $_SESSION['error'] = $error;
+            header('location: login.php');
+            exit();
+            
+        } else {
+            $_SESSION['username'] = $username;
+            unset($_SESSION['error']);
+            $data = mysqli_fetch_assoc($res);
+            $_SESSION['LoaiTaiKhoan'] = $data['LoaiTaiKhoan'];
+            if($_SESSION['LoaiTaiKhoan'] == admin)
+            {
+                header('location:admin.php');
+                exit();
+            }
+            else {
+                echo "Đăng nhập thành công";
+                header('location:index.php');
+                exit();
+            }
+        }
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,52 +45,9 @@ include_once("./database.php"); ?>
     <?php include_once("./header.php"); ?>
     <title>Đăng Nhập</title>
 </head>
-<body>
-    <?php
-        if(isset($_POST["btnSubmit"]))
-        {
-            $username = $_POST["username"];
-            $password = $_POST["password"];
-
-            // xoá bỏ các tag html, kí tự đặc biệt nhằm tránh sql injection
-            $username = strip_tags($username);
-            $username = addslashes($username);
-            $password = strip_tags($password);
-            $password = addslashes($password);
-
-            $query = "SELECT TenDangNhap, MatKhau, LoaiTaiKhoan from taikhoan WHERE TenDangNhap = '$username' AND MatKhau = '$password' ";
-            $res = DataProvider::ExecuteQuery($query);
-            if(mysqli_num_rows($res) == 0)
-            {
-                echo "Tên đăng nhập hoặc mật khẩu không đúng !";
-            } else {
-                $_SESSION['username'] = $username;
-                $data = mysqli_fetch_assoc($res);
-                $_SESSION['LoaiTaiKhoan'] = $data['LoaiTaiKhoan'];
-                if($_SESSION['LoaiTaiKhoan'] == admin)
-                {
-                    header('Location:admin.php');
-                    exit();
-                }
-                else {
-                    echo "Đăng nhập thành công";
-                    header('Location:index.php');
-                    exit();
-                }
-            }
-        }
-    ?>
-
+<body onsubmit="MyErr();">
     <!-- thanh menu -->
     <?php include_once("./menu.php"); ?>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="header-top"></div>
-            </div>
-        </div>
-    </div>
 
     <!-- đăng nhập -->
     <div class="container">
@@ -72,6 +66,12 @@ include_once("./database.php"); ?>
                         <input type="password" class="form-control" name="password" id="password" placeholder="Mật Khẩu" required>
                         <div class="invalid-feedback">
                             Vui lòng nhập mật khẩu.
+                        </div>
+                        <div>
+                            <?php   
+                                if (!empty($_SESSION['error']))
+                                    echo $_SESSION['error'];
+                            ?>
                         </div>
                     </div>
                     <button type="submit" name="btnSubmit" class="btn btn-lg btn-dangnhap">Đăng Nhập</button>
